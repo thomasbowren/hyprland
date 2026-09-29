@@ -1,6 +1,8 @@
 -----------------------
 ---- LOOK AND FEEL ----
 -----------------------
+---
+local colors = require("noctalia").colors
 -- Set xwayland apps to use their preferred resolution (e.g. steam)
 hl.config({
 	xwayland = {
@@ -41,7 +43,7 @@ hl.config({
 			enabled = true,
 			range = 4,
 			render_power = 3,
-			color = 0xee1a1a1a,
+			color = colors.shadow,
 		},
 
 		blur = {
@@ -55,8 +57,8 @@ hl.config({
 			enabled = true,
 			range = 10,
 			render_power = 3,
-			color = 0xee1a1a1a,
-			-- color_inactive = unset
+			color = colors.primary,
+			color_inactive = colors.on_surface,
 		},
 	},
 

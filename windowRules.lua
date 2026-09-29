@@ -62,6 +62,14 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "github_rule",
+	match = {
+		class = "chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default",
+	},
+	workspace = "7",
+})
+
+hl.window_rule({
 	name = "chromium_rule",
 	match = {
 		class = "chromium",
@@ -109,6 +117,14 @@ hl.window_rule({
 	},
 	workspace = "9",
 	opacity = "1.0 override 0.7 override 0.7 override",
+})
+
+hl.window_rule({
+	name = "youtube_music_rule",
+	match = {
+		class = "chrome-cinhimbnkkaeohfgghhklpknlkffjgod-Default",
+	},
+	workspace = "9",
 })
 
 hl.window_rule({

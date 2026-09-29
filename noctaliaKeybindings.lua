@@ -2,6 +2,7 @@ local mainMod = "SUPER"
 local shiftMod = mainMod .. " + SHIFT"
 local altMod = mainMod .. " + ALT"
 local ctrlMod = mainMod .. " + CTRL"
+local ctrlShiftMod = ctrlMod .. " + SHIFT"
 local ipc = "noctalia msg"
 
 -- Core binds
@@ -49,18 +50,33 @@ hl.bind(
 	{ description = "Preview Weather" }
 )
 
--- Bar
+-- Bar: smart+overlay <-> off+reserve, state survives lua reload
 hl.bind(
 	mainMod .. " + CTRL + ALT + SPACE",
-	hl.dsp.exec_cmd(ipc .. " bar-auto-hide-set"),
+	hl.dsp.exec_cmd(
+		[[bash -c 'S="${XDG_RUNTIME_DIR:-/tmp}/noctalia-bar-autohide.state"; if [ "$(cat "$S" 2>/dev/null)" = "smart" ]; then noctalia msg bar-auto-hide-set off && noctalia msg bar-reserve-toggle && echo off > "$S"; else noctalia msg bar-auto-hide-set smart && noctalia msg bar-reserve-toggle && echo smart > "$S"; fi']]
+	),
 	{ description = "Auto-Hide Bar" }
 )
+
+-- Bar (legacy version)
+-- local bar_hidden = false
+-- hl.bind(mainMod .. " + CTRL + ALT + SPACE", function()
+-- 	if bar_hidden == false then
+-- 		hl.dispatch(hl.dsp.exec_cmd(ipc .. " bar-auto-hide-set smart"))
+-- 		bar_hidden = true
+-- 	else
+-- 		hl.dispatch(hl.dsp.exec_cmd(ipc .. " bar-auto-hide-set off"))
+-- 		bar_hidden = false
+-- 	end
+-- 	hl.dispatch(hl.dsp.exec_cmd(ipc .. " bar-reserve-toggle"))
+-- end, { description = "Auto-Hide Bar" })
 
 -- Bluetooth toggle
 hl.bind(shiftMod .. " + CTRL + B", hl.dsp.exec_cmd(ipc .. " bluetooth-toggle"), { description = "Toggle Bluetooth" })
 
 -- Clipboard
-hl.bind("CTRL + SHIFT + D", hl.dsp.exec_cmd(ipc .. " clipboard-clear"), { description = "Clear clipboard history" })
+hl.bind(ctrlShiftMod .. " + D", hl.dsp.exec_cmd(ipc .. " clipboard-clear"), { description = "Clear clipboard history" })
 
 -- Idle inhibit
 hl.bind(mainMod .. " + CTRL + i", hl.dsp.exec_cmd(ipc .. " caffeine-toggle"), { description = "Inhibit Idle State" })
@@ -80,22 +96,6 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd(ipc .. " media next"), { description = 
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(ipc .. " media previous"), { description = "Previous Track" })
 hl.bind("XF86AudioStop", hl.dsp.exec_cmd(ipc .. " media stop"), { description = "Stop" })
 
----- Plugins ----
-
--- Example
-hl.bind(
-	ctrlMod .. " + C",
-	hl.dsp.exec_cmd(ipc .. " plugin noctalia/screen_recorder:service all toggle"),
-	{ description = "Toggle Noctalia Screen Recorder" }
-)
-
--- Wallpaper
-hl.bind(
-	shiftMod .. " + CTRL + SPACE",
-	hl.dsp.exec_cmd(ipc .. " wallpaper-random"),
-	{ description = "Set background to a random wallpaper from current theme" }
-)
-
 -- Widgets
 
 -- Wifi toggle
@@ -107,3 +107,26 @@ hl.bind(
 -- Window switcher
 hl.bind("ALT + TAB", hl.dsp.exec_cmd(ipc .. " window-switcher"), { description = "ALT-TAB Style window-switching" })
 hl.bind("ALT + TAB + Q", hl.dsp.exec_cmd(ipc .. " window-switcher hide"), { description = "Hide window-switcher" })
+
+---- plugins ----
+
+-- Screen Recorder
+hl.bind(
+	ctrlMod .. " + C",
+	hl.dsp.exec_cmd(ipc .. " plugin noctalia/screen_recorder:service all toggle"),
+	{ description = "Toggle Noctalia Screen Recorder" }
+)
+
+-- Timer
+hl.bind(
+	ctrlMod .. " + T",
+	hl.dsp.exec_cmd(ipc .. " panel-toggle noctalia/timer:panel"),
+	{ description = "Toggle Noctalia Screen Recorder" }
+)
+
+-- Wallpaper
+hl.bind(
+	shiftMod .. " + CTRL + SPACE",
+	hl.dsp.exec_cmd(ipc .. " wallpaper-random"),
+	{ description = "Set background to a random wallpaper from current theme" }
+)

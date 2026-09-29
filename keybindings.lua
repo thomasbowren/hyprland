@@ -105,9 +105,9 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- wl-clipboard universal COPY/PASTE
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("wl-copy"), { description = "Copy Command" })
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("wl-paste"), { description = "Paste Command" })
+-- -- wl-clipboard universal COPY/PASTE
+-- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("wl-copy"), { description = "Copy Command" })
+-- hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("wl-paste"), { description = "Paste Command" })
 
 -- Set programs that you use
 local terminal = "ghostty"
@@ -125,8 +125,13 @@ local webapp = "gtk-launch "
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Default Terminal" })
 hl.bind(
 	altMod .. " + RETURN",
-	hl.dsp.exec_cmd("foot tmux new-session -A -s default"),
+	hl.dsp.exec_cmd("foot tmux new-session -A -s Thomas"),
 	{ description = "Launch Tmux inside Foot" }
+)
+hl.bind(
+	altShiftMod .. " + RETURN",
+	hl.dsp.exec_cmd("ghostty -e tmux new-session -A -s Vibez '/home/Thomas/.local/bin/vibez'"),
+	{ description = "Launch or attach vibez as Tmux session" }
 )
 hl.bind(shiftMod .. " + B", hl.dsp.exec_cmd(browser), { description = "Default Browser" })
 hl.bind(
@@ -143,6 +148,11 @@ hl.bind(shiftMod .. " + T", hl.dsp.exec_cmd(terminal .. " -e " .. "btop"), { des
 
 -- Webapps
 hl.bind(shiftMod .. " + E", hl.dsp.exec_cmd("chromium" .. email), { description = "Email" })
+hl.bind(
+	shiftMod .. " + G",
+	hl.dsp.exec_cmd(webapp .. "chrome-mjoklplbddabcmpepnokjaffbmgbkkgg-Default"),
+	{ description = "GitHub" }
+)
 hl.bind(
 	shiftMod .. " + R",
 	hl.dsp.exec_cmd(webapp .. "chrome-lgnggepjiihbfdbedefdhcffnmhcahbm-Default"),
@@ -163,3 +173,10 @@ hl.bind(shiftMod .. " + SPACE", hl.dsp.exec_cmd(runner), { description = "Run sy
 hl.bind(mainMod .. " + M", function()
 	hl.plugin.scrolloverview.overview("toggle")
 end, { submap_universal = true })
+
+-- Keybinding cheatsheet (Rofi panel)
+hl.bind(
+	mainMod .. " + F1",
+	hl.dsp.exec_cmd("/home/Thomas/.config/hypr/scripts/keybind-cheatsheet-rofi.sh"),
+	{ description = "Show keybinding cheatsheet" }
+)
