@@ -50,14 +50,21 @@ hl.bind(
 	{ description = "Preview Weather" }
 )
 
--- Bar: smart+overlay <-> off+reserve, state survives lua reload
+-- Bar: smart auto-hide <-> docked + reserved space, persisted in ~/.config/noctalia/bar-mode.toml
 hl.bind(
 	mainMod .. " + CTRL + ALT + SPACE",
-	hl.dsp.exec_cmd(
-		[[bash -c 'S="${XDG_RUNTIME_DIR:-/tmp}/noctalia-bar-autohide.state"; if [ "$(cat "$S" 2>/dev/null)" = "smart" ]; then noctalia msg bar-auto-hide-set off && noctalia msg bar-reserve-toggle && echo off > "$S"; else noctalia msg bar-auto-hide-set smart && noctalia msg bar-reserve-toggle && echo smart > "$S"; fi']]
-	),
+	hl.dsp.exec_cmd("/home/Thomas/.config/hypr/scripts/noctalia-bar-mode.sh"),
 	{ description = "Auto-Hide Bar" }
 )
+
+-- Bar (IPC + state file version, desyncs whenever Noctalia reloads its config)
+-- hl.bind(
+-- 	mainMod .. " + CTRL + ALT + SPACE",
+-- 	hl.dsp.exec_cmd(
+-- 		[[bash -c 'S="${XDG_RUNTIME_DIR:-/tmp}/noctalia-bar-autohide.state"; if [ "$(cat "$S" 2>/dev/null)" = "smart" ]; then noctalia msg bar-auto-hide-set off && noctalia msg bar-reserve-toggle && echo off > "$S"; else noctalia msg bar-auto-hide-set smart && noctalia msg bar-reserve-toggle && echo smart > "$S"; fi']]
+-- 	),
+-- 	{ description = "Auto-Hide Bar" }
+-- )
 
 -- Bar (legacy version)
 -- local bar_hidden = false
@@ -71,6 +78,8 @@ hl.bind(
 -- 	end
 -- 	hl.dispatch(hl.dsp.exec_cmd(ipc .. " bar-reserve-toggle"))
 -- end, { description = "Auto-Hide Bar" })
+
+-- Widgets
 
 -- Bluetooth toggle
 hl.bind(shiftMod .. " + CTRL + B", hl.dsp.exec_cmd(ipc .. " bluetooth-toggle"), { description = "Toggle Bluetooth" })
@@ -96,8 +105,6 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd(ipc .. " media next"), { description = 
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(ipc .. " media previous"), { description = "Previous Track" })
 hl.bind("XF86AudioStop", hl.dsp.exec_cmd(ipc .. " media stop"), { description = "Stop" })
 
--- Widgets
-
 -- Wifi toggle
 hl.bind(
 	shiftMod .. " + CTRL + W",
@@ -108,7 +115,7 @@ hl.bind(
 hl.bind("ALT + TAB", hl.dsp.exec_cmd(ipc .. " window-switcher"), { description = "ALT-TAB Style window-switching" })
 hl.bind("ALT + TAB + Q", hl.dsp.exec_cmd(ipc .. " window-switcher hide"), { description = "Hide window-switcher" })
 
----- plugins ----
+-- Plugins
 
 -- Screen Recorder
 hl.bind(

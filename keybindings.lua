@@ -105,9 +105,11 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- -- wl-clipboard universal COPY/PASTE
--- hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("wl-copy"), { description = "Copy Command" })
--- hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("wl-paste"), { description = "Paste Command" })
+-- Universal (macOS-style) COPY/PASTE/CUT, Omarchy-style
+-- Terminals bind CTRL+Insert/SHIFT+Insert to clipboard copy/paste (ghostty, foot, kitty, alacritty)
+hl.bind(mainMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "Insert" }), { description = "Universal Copy" })
+hl.bind(mainMod .. " + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { description = "Universal Paste" })
+hl.bind(mainMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X" }), { description = "Universal Cut" })
 
 -- Set programs that you use
 local terminal = "ghostty"
@@ -140,7 +142,7 @@ hl.bind(
 	{ description = "Private Browser" }
 )
 hl.bind(ctrlMod .. " + P", hl.dsp.exec_cmd("hyprpicker -a"), { description = "Color Picker" })
-hl.bind(shiftMod .. " + F", hl.dsp.exec_cmd(terminal .. " -e " .. fileManager), { description = "File Manager" })
+hl.bind(shiftMod .. " + F", hl.dsp.exec_cmd("kitty" .. " -e " .. fileManager), { description = "File Manager" })
 hl.bind(shiftMod .. " + N", hl.dsp.exec_cmd("kitty" .. " -e " .. editor), { description = "Default Editor" })
 hl.bind(ctrlMod .. " + L", hl.dsp.exec_cmd(AirDrop), { description = "AirDrop Alternative" })
 hl.bind(shiftMod .. " + M", hl.dsp.exec_cmd(music_player), { description = "Music Player" })
